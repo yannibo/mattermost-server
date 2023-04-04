@@ -128,9 +128,6 @@ DIST_PATH_OSX_AMD64=$(DIST_ROOT)/osx_amd64/mattermost
 DIST_PATH_OSX_ARM64=$(DIST_ROOT)/osx_arm64/mattermost
 DIST_PATH_WIN=$(DIST_ROOT)/windows/mattermost
 
-# Tests
-TESTS=.
-
 # Packages lists
 TE_PACKAGES=$(shell $(GO) list ./... | grep -vE 'v6/server/playbooks|v6/server/boards')
 BOARDS_PACKAGES=$(shell $(GO) list ./... | grep -E 'v6/server/boards')
@@ -450,9 +447,9 @@ else
 endif
 
 test-server-race: test-server-pre
-	MM_DISABLE_PLAYBOOKS=true MM_DISABLE_BOARDS=true ./scripts/test.sh "$(GO)" "-race $(GOFLAGS)" "$(TE_PACKAGES) $(EE_PACKAGES)" "$(TESTS)" "$(TESTFLAGS)" "$(GOBIN)" "90m"
-	MM_DISABLE_PLAYBOOKS=true MM_DISABLE_BOARDS=false ./scripts/test.sh "$(GO)" "-race $(GOFLAGS)" "$(BOARDS_PACKAGES)" "$(TESTS)" "$(TESTFLAGS)" "$(GOBIN)" "90m"
-	MM_DISABLE_PLAYBOOKS=false MM_DISABLE_BOARDS=true ./scripts/test.sh "$(GO)" "-race $(GOFLAGS)" "$(PLAYBOOKS_PACKAGES)" "$(TESTS)" "$(TESTFLAGS)" "$(GOBIN)" "90m"
+	MM_DISABLE_PLAYBOOKS=true MM_DISABLE_BOARDS=true ./scripts/test.sh "$(GO)" "-race $(GOFLAGS)" "$(TE_PACKAGES) $(EE_PACKAGES)" "$(TESTFLAGS)" "$(GOBIN)" "90m"
+	MM_DISABLE_PLAYBOOKS=true MM_DISABLE_BOARDS=false ./scripts/test.sh "$(GO)" "-race $(GOFLAGS)" "$(BOARDS_PACKAGES)" "$(TESTFLAGS)" "$(GOBIN)" "90m"
+	MM_DISABLE_PLAYBOOKS=false MM_DISABLE_BOARDS=true ./scripts/test.sh "$(GO)" "-race $(GOFLAGS)" "$(PLAYBOOKS_PACKAGES)" "$(TESTFLAGS)" "$(GOBIN)" "90m"
 ifneq ($(IS_CI),true)
   ifneq ($(MM_NO_DOCKER),true)
     ifneq ($(TEMP_DOCKER_SERVICES),)
@@ -463,9 +460,9 @@ ifneq ($(IS_CI),true)
 endif
 
 test-server: test-server-pre
-	MM_DISABLE_PLAYBOOKS=true MM_DISABLE_BOARDS=true ./scripts/test.sh "$(GO)" "$(GOFLAGS)" "$(TE_PACKAGES) $(EE_PACKAGES)" "$(TESTS)" "$(TESTFLAGS)" "$(GOBIN)" "45m"
-	MM_DISABLE_PLAYBOOKS=true MM_DISABLE_BOARDS=false ./scripts/test.sh "$(GO)" "$(GOFLAGS)" "$(BOARDS_PACKAGES)" "$(TESTS)" "$(TESTFLAGS)" "$(GOBIN)" "45m"
-	MM_DISABLE_PLAYBOOKS=false MM_DISABLE_BOARDS=true ./scripts/test.sh "$(GO)" "$(GOFLAGS)" "$(PLAYBOOKS_PACKAGES)" "$(TESTS)" "$(TESTFLAGS)" "$(GOBIN)" "45m"
+	MM_DISABLE_PLAYBOOKS=true MM_DISABLE_BOARDS=true ./scripts/test.sh "$(GO)" "$(GOFLAGS)" "$(TE_PACKAGES) $(EE_PACKAGES)" "$(TESTFLAGS)" "$(GOBIN)" "45m"
+	MM_DISABLE_PLAYBOOKS=true MM_DISABLE_BOARDS=false ./scripts/test.sh "$(GO)" "$(GOFLAGS)" "$(BOARDS_PACKAGES)" "$(TESTFLAGS)" "$(GOBIN)" "45m"
+	MM_DISABLE_PLAYBOOKS=false MM_DISABLE_BOARDS=true ./scripts/test.sh "$(GO)" "$(GOFLAGS)" "$(PLAYBOOKS_PACKAGES)" "$(TESTFLAGS)" "$(GOBIN)" "45m"
 ifneq ($(IS_CI),true)
   ifneq ($(MM_NO_DOCKER),true)
     ifneq ($(TEMP_DOCKER_SERVICES),)
@@ -477,7 +474,7 @@ endif
 
 test-server-ee: check-prereqs-enterprise start-docker go-junit-report do-cover-file ## Runs EE tests.
 	@echo Running only EE tests
-	MM_DISABLE_PLAYBOOKS=true MM_DISABLE_BOARDS=true ./scripts/test.sh "$(GO)" "$(GOFLAGS)" "$(EE_PACKAGES)" "$(TESTS)" "$(TESTFLAGS)" "$(GOBIN)" "20m"
+	MM_DISABLE_PLAYBOOKS=true MM_DISABLE_BOARDS=true ./scripts/test.sh "$(GO)" "$(GOFLAGS)" "$(EE_PACKAGES)" "$(TESTFLAGS)" "$(GOBIN)" "20m"
 
 test-server-quick: check-prereqs-enterprise ## Runs only quick tests.
 ifeq ($(BUILD_ENTERPRISE_READY),true)

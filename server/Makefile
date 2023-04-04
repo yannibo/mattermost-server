@@ -403,8 +403,8 @@ check-style: golangci-lint plugin-checker vet ## Runs style/lint checks
 do-cover-file: ## Creates the test coverage report file.
 	@echo "mode: count" > cover.out
 
-go-junit-report:
-	$(GO) install github.com/jstemmer/go-junit-report@v1.0.0
+gotestsum:
+	$(GO) install gotest.tools/gotestsum@v1.7.0
 
 test-compile: ## Compile tests.
 	@echo COMPILE TESTS
@@ -439,7 +439,7 @@ modules-tidy:
 		mv channels/imports/imports.go.orig channels/imports/imports.go; \
 	fi;
 
-test-server-pre: check-prereqs-enterprise start-docker go-junit-report do-cover-file ## Runs tests.
+test-server-pre: check-prereqs-enterprise start-docker gotestsum do-cover-file ## Runs tests.
 ifeq ($(BUILD_ENTERPRISE_READY),true)
 	@echo Running all tests
 else
@@ -472,7 +472,7 @@ ifneq ($(IS_CI),true)
   endif
 endif
 
-test-server-ee: check-prereqs-enterprise start-docker go-junit-report do-cover-file ## Runs EE tests.
+test-server-ee: check-prereqs-enterprise start-docker gotestsum do-cover-file ## Runs EE tests.
 	@echo Running only EE tests
 	MM_DISABLE_PLAYBOOKS=true MM_DISABLE_BOARDS=true ./scripts/test.sh "$(GO)" "$(GOFLAGS)" "$(EE_PACKAGES)" "$(GOBIN)" "20m"
 

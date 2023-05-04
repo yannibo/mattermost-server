@@ -16,6 +16,7 @@ jobs:
     env:
       COMPOSE_PROJECT_NAME: ghactions
       BUILD_IMAGE: mattermost/mattermost-build-server:20230118_golang-1.19.5
+      RACE_MODE: -race
     steps:
       - name: Checkout mattermost-server
         uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3.3.0

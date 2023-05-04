@@ -1,6 +1,9 @@
 name: Mattermost Build
 on:
   pull_request:
+    paths-ignore:
+      - 'webapp/**'
+      - 'e2e-tests/**'
   push:
     branches:
       - master

@@ -1,6 +1,9 @@
 name: Web App CI
 on:
   pull_request:
+    paths-ignore:
+      - 'server/**'
+      - 'e2e-tests/**'
   push:
     branches:
       - master
